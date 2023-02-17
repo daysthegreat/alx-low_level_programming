@@ -21,11 +21,11 @@ if (m > 5)
 {
 printf("and is greater than 5");
 }
-else if (m == 0)
+if (m == 0)
 {
 printf("and is 0");
 }
-else (m < 6 && m != 0)
+if (m < 6 && m != 0)
 {
 printf("and is less than 6 and not 0");
 }
