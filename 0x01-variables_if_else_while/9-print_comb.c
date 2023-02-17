@@ -7,15 +7,18 @@
  */
 int main(void)
 {
-int num;
-char letter;
+int i = 0;
 
-for (num = 0; num < 10; num++)
-putchar((num % 10) + '0');
-
-for (letter = 'a'; letter <= 'f'; letter++)
-putchar(letter);
-
+while (i < 10)
+{
+putchar(i + '0');
+if (i < 9)
+{
+putchar(44);
+putchar(32);
+}
+i++;
+}
 putchar('\n');
 
 return (0);
