@@ -1,16 +1,15 @@
 #include "main.h"
 
 /**
- * void swap_int - swaps the values of two intergets
+ * swap_int - swaps the values of two intergets
  *
- * @a: integer to be swapped
- * @b: integer to be swapped
+ * @a: params
+ * @b: params
  */
 void swap_int(int *a, int *b)
 {
-	int c;
+	int tmp = *a;
 
-	c = *a;
 	*a = *b;
 	*b = c;
 }
