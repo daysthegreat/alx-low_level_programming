@@ -5,7 +5,7 @@
  * @n: pointer
  */
 
-void reset_to_98(int *n)
+int reset_to_98(int *n)
 {
 	*n = 98;
 }
