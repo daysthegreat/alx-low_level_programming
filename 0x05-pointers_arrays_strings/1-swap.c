@@ -3,7 +3,8 @@
 /**
  * void swap_int - swaps the values of two intergets
  *
- * @int *a and @int *b
+ * @a: integer to be swapped
+ * @b: integer to be swapped
  */
 void swap_int(int *a, int *b)
 {
