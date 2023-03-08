@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- *_strlen_recursion - prints length of a string
+ *factorial - factorial of a given number
  *@n: int type
  *Return: factorial of n
  */
