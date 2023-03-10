@@ -7,18 +7,18 @@
  * Return: s1[i] - s2[i]
  */
 int _strcmp(char *s1, char *s2)
+
 {
-	int i;
+
+char *str_one = s1;
+char *str_two = s2;
 
 
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0')
-	{
-		if (s1[i] != s2[i])
-		{
-			return (s1[i] - s2[i]);
-		}
-	i++;
-	}
-	return (0);
+while (*str_one != '\0' && *str_two != '\0' && *str_one == *str_two)
+{
+str_one++;
+str_two++;
+}
+
+return (*str_one - *str_two);
 }
