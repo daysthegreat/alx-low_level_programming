@@ -1,68 +1,30 @@
-#include "main.h"
-/**
- *_strlen - count array
- *@s: array of elements
- *Return: 1
- */
-
-int _strlen(char *s)
-{
-unsigned int i;
-
-i = 0;
-while (s[i] != '\0') /*count character of string*/
-{
-i++;
-}
-
-return (i);
-}
+nclude "holberton.h"
+#include <stdlib.h>
 
 /**
- *_strcpy - copy arrays
- *@src: array of elements
- *@dest: dest array
- *Return: dest
- */
-
-char *_strcpy(char *dest, char *src)
-{
-int i = 0;
-
-while (src[i] != '\0')
-{
-dest[i] = src[i];
-i++;
-}
-dest[i] = '\0';
-
-return (dest);
-}
-
-/**
- *_strdup - array for prints a string
- *@str: array of elements
- *Return: pointer
+ * _strdup - Duplicate a string using malloc
+ * @str: string to duplicate
+ * Return: Pointer to a the new duped string
  */
 
 char *_strdup(char *str)
 {
-char *dst;
-unsigned int size;
+	char *a;
+	int i, c;
 
-if (str == 0)
-{
-return (NULL);
-}
+	if (str == NULL)
+		return (NULL);
 
-size = _strlen(str) + 1;
+	for (i = 0; str[i] != '\0'; i++)
+		;
 
-dst = (char *) malloc(size *sizeof(char));
+	a = malloc(i * sizeof(*a) + 1);
+	if (a == NULL)
+		return (NULL);
 
-if (dst == 0)
-{
-return (NULL);
-}
-_strcpy(dst, str);
-return (dst);
+	for (c = 0; c < i; c++)
+		a[c] = str[c];
+	a[c] = '\0';
+
+	return (a);
 }
