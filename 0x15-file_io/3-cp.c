@@ -1,76 +1,71 @@
 #include "main.h"
-#define BUFFER_SIZE 1024
+
+#define MAXSIZE 4096
+#define SE STDERR_FILENO
 
 /**
- * error_file - checks if files can be opened.
- * @file_from: file_from.
- * @file_to: file_to.
- * @argv: arguments vector.
- * Return: no return.
- */
-
-void check_file(int fd, char *filename)
-{
-  if (fd == -1)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", filename);
-		exit(EXIT_FAILURE);
-	}
-}
-
-/**
- * main - check the code.
+ * main - check the code for Holberton School students.
  * @argc: number of arguments.
  * @argv: arguments vector.
  * Return: Always 0.
  */
-
 int main(int argc, char *argv[])
-	{
-		int fd_src, fd_dest, err_close;
-		ssize_t nread, nwritten;
-		char buffer[BUFFER_SIZE];
+
+{
+	int input_fd, output_fd, istatus, ostatus;
+	char buf[MAXSIZE];
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
 
 	if (argc != 3)
 	{
-		fprintf(stderr, "Usage: %s <file_from> <file_to>\n", argv[0]);
+		dprintf(SE, "Usage: cp file_from file_to\n");
 		exit(EXIT_FAILURE);
 	}
 
-	fd_src = open(argv[1], O_RDONLY);
-	check_file(fd_src, argv[1]);
-
-	fd_dest = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	check_file(fd_dest, argv[2]);
-
-	while ((nread = read(fd_src, buffer, BUFFER_SIZE)) > 0)
+	input_fd = open(argv[1], O_RDONLY);
+	if (input_fd == -1)
 	{
-		nwritten = write(fd_dest, buffer, nread);
-	if (nwritten == -1)
-	{
-		perror("write");
-		exit(EXIT_FAILURE);
+	dprintf(SE, "Error: Cannot open input file %s\n", argv[1]);
+	exit(EXIT_FAILURE);
 	}
-	}
-	if (nread == -1)
+
+	output_fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, mode);
+	if (output_fd == -1)	
 	{
-		perror("read");
+		dprintf(SE, "Error: Cannot open output file %s\n", argv[2]);
 		exit(EXIT_FAILURE);
 	}
 
-	err_close = close(fd_src);
-	if (err_close == -1)
+	do
 	{
-		perror("close");
+		istatus = read(input_fd, buf, MAXSIZE);
+		if (istatus == -1)
+	{
+		dprintf(SE, "Error: Cannot read from input file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
+	if (istatus > 0)
+	{
+		ostatus = write(output_fd, buf, istatus);
+	if (ostatus == -1)
+	{
+		dprintf(SE, "Error: Cannot write to output file %s\n", argv[2]);
+		exit(EXIT_FAILURE);
+	}
+	}
+	}
+	while (istatus > 0);
+
+	if (close(input_fd) == -1)
+	{
+		dprintf(SE, "Error: Cannot close input file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
+	if (close(output_fd) == -1)
+	{
+		dprintf(SE, "Error: Cannot close output file %s\n", argv[2]);
 		exit(EXIT_FAILURE);
 	}
 
-	err_close = close(fd_dest);
-	if (err_close == -1)
-	{
-		perror("close");
-		exit(EXIT_FAILURE);
-	}
-
-	return (0);
+	return (EXIT_SUCCESS);
 }
