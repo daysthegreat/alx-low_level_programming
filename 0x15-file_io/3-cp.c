@@ -1,57 +1,71 @@
 #include "main.h"
-#define BUF_SIZE 1024
+
+#define MAXSIZE 4096
+#define SE STDERR_FILENO
+
 /**
- * error_file - checks if files can be opened.
- * @file_from: file_from.
- * @file_to: file_to.
+ * main - check the code for Holberton School students.
+ * @argc: number of arguments.
  * @argv: arguments vector.
- * Return: no return.
+ * Return: Always 0.
  */
 int main(int argc, char *argv[])
+
 {
+	int input_fd, output_fd, istatus, ostatus;
+	char buf[MAXSIZE];
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH;
+
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(97);
+		dprintf(SE, "Usage: cp file_from file_to\n");
+		exit(EXIT_FAILURE);
 	}
-int fd_from = open(argv[1], O_RDONLY);
-	if (fd_from == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-int fd_to = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
-	if (fd_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		exit(99);
-	}
-	char buf[BUF_SIZE];
-	ssize_t bytes_read, bytes_written;
-	while ((bytes_read = read(fd_from, buf, BUF_SIZE)) > 0)
 
+	input_fd = open(argv[1], O_RDONLY);
+	if (input_fd == -1)
 	{
-	bytes_written = write(fd_to, buf, bytes_read);
-	if (bytes_written != bytes_read)
+	dprintf(SE, "Error: Cannot open input file %s\n", argv[1]);
+	exit(EXIT_FAILURE);
+	}
+
+	output_fd = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, mode);
+	if (output_fd == -1)	
 	{
-		dprintf(STDERR_FILENO, "Error: Incomplete write to %s\n", argv[2]);
-		exit(99);
+		dprintf(SE, "Error: Cannot open output file %s\n", argv[2]);
+		exit(EXIT_FAILURE);
+	}
+
+	do
+	{
+		istatus = read(input_fd, buf, MAXSIZE);
+		if (istatus == -1)
+	{
+		dprintf(SE, "Error: Cannot read from input file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
+	}
+	if (istatus > 0)
+	{
+		ostatus = write(output_fd, buf, istatus);
+	if (ostatus == -1)
+	{
+		dprintf(SE, "Error: Cannot write to output file %s\n", argv[2]);
+		exit(EXIT_FAILURE);
 	}
 	}
-	if (bytes_read == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
 	}
-	if (close(fd_from) == -1)
+	while (istatus > 0);
+
+	if (close(input_fd) == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_from);
-		exit(100);
+		dprintf(SE, "Error: Cannot close input file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
 	}
-	if (close(fd_to) == -1)
+	if (close(output_fd) == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd_to);
-		exit(100);
+		dprintf(SE, "Error: Cannot close output file %s\n", argv[2]);
+		exit(EXIT_FAILURE);
 	}
-	return (0);
+
+	return (EXIT_SUCCESS);
 }
