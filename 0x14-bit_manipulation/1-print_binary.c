@@ -1,13 +1,19 @@
 #include "main.h"
 
-
+/**
+ * print_binary - print binary representation of a number
+ * @n: decimal number to print as binary
+ */
 
 void print_binary(unsigned long int n)
 
 {
 unsigned long int mask = (unsigned long int) 1 << (sizeof(unsigned long int) * 8 - 1);
+
 	int printed = 0;
+
 	while (mask)
+
 	{
 		if (n & mask)
 	{
@@ -16,12 +22,15 @@ unsigned long int mask = (unsigned long int) 1 << (sizeof(unsigned long int) * 8
 	}
 
 	else if (printed)
+
 	{
 		putchar('0');
 	}
 		mask >>= 1;
 	}
+
 	if (!printed)
+
 	{
 		putchar('0');
 	}
