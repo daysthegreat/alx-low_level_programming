@@ -1,25 +1,16 @@
 #include "main.h"
 
 /**
- * print_binary - print binary representation of a number
- * @n: decimal number to print as binary
- */
-
-/**
- * Prints the binary representation of a given unsigned long integer.
- *
+ * print_binary: Prints the binary representation of
+ *a given unsigned long integer.
  * @param n The number to be printed in binary.
  */
 
 void print_binary(unsigned long int n)
+
 {
-	for (int i = sizeof(unsigned long int) * 8 - 1; i >= 0; i--)
+	if (n > 1)
+		print_binary(n >> 1);
 
-	{
-		unsigned long int mask = 1UL << i;
-
-		putchar((n & mask) ? '1' : '0');
-	}
-
-	putchar('\n');
+	_putchar((n & 1) + '0');
 }
