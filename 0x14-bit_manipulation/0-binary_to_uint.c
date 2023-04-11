@@ -8,31 +8,30 @@
  * Return: unsigned int.
  */
 
-unsigned int binary_to_uint(const char *b)
+unsigned int binary_to_uint(const char *binary_string)
 {
-	unsigned int unint;
-	int len, base_two;
+	unsigned int uint_val = 0;
+	int string_len = 0;
+	int base = 1;
 
-	if (b == NULL)
+	if (!binary_string)
 		return (0);
 
-	uint = 0;
-
-	for (len = 0; b[len] != '\0'; len++)
+	for (string_len = 0; binary_string[string_len] != '\0'; string_len++)
 		;
 
-	for (len--, base_two = 1; len >= 0; len--, base_two *= 2)
+	for (string_len--, base = 1; string_len >= 0; string_len--, base *= 2)
 	{
-		if (b[len] != '0' && b[len] != '1')
+		if (binary_string[string_len] != '0' && binary_string[string_len] != '1')
 		{
 			return (0);
 		}
 
-		if (b[len] & 1)
+		if (binary_string[string_len] & 1)
 		{
-			unint += base_two;
+			uint_val += base;
 		}
 	}
 
-	return (unint);
+	return (uint_val);
 }
