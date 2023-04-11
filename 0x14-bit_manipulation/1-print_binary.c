@@ -5,33 +5,21 @@
  * @n: decimal number to print as binary
  */
 
+/**
+ * Prints the binary representation of a given unsigned long integer.
+ *
+ * @param n The number to be printed in binary.
+ */
+
 void print_binary(unsigned long int n)
-
 {
-unsigned long int mask = (unsigned long int) 1 << (sizeof(unsigned long int) * 8 - 1);
-
-	int printed = 0;
-
-	while (mask)
+	for (int i = sizeof(unsigned long int) * 8 - 1; i >= 0; i--)
 
 	{
-		if (n & mask)
-	{
-		putchar('1');
-		printed = 1;
+		unsigned long int mask = 1UL << i;
+
+		putchar((n & mask) ? '1' : '0');
 	}
 
-	else if (printed)
-
-	{
-		putchar('0');
-	}
-		mask >>= 1;
-	}
-
-	if (!printed)
-
-	{
-		putchar('0');
-	}
+	putchar('\n');
 }
