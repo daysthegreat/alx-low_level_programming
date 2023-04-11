@@ -3,7 +3,7 @@
 /**
  * print_binary: Prints the binary representation of
  *a given unsigned long integer.
- * @param n The number to be printed in binary.
+ * @n: The number to be printed in binary.
  */
 
 void print_binary(unsigned long int n)
