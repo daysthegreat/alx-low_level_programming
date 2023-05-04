@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * get_bit - get the value of a bit at a given index
  * @n: unsigned long integer to work on

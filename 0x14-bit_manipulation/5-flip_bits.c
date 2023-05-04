@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * flip_bits - number of bits to flip
  * @n: first number
