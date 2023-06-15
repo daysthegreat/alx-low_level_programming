@@ -1,4 +1,4 @@
-nclude "lists.h"
+#include "lists.h"
 
 /**
  * insert_dnodeint_at_idx - insert a new node at given position
@@ -7,46 +7,67 @@ nclude "lists.h"
  * @n: value to store in new node
  * Return: Address of new node, or NULL if failed
  */
-dlistint_t *insert_dnodeint_at_idx(dlistint_t **h, unsigned int idx, int n)
-{
-	unsigned int c;
-	dlistint_t *tmp, *prev, *new;
 
-	new = malloc(sizeof(dlistint_t));
-	if (new == NULL)
+dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n)
+
+{
+	if (h == NULL)
+	{
 		return (NULL);
-	new->n = n;
-	for (tmp = *h, c = 1; tmp && c < idx; c++, tmp = tmp->next)
-		prev = tmp;
+	}
+
+	dlistint_t *new_node = malloc(sizeof(dlistint_t));
+
+	if (new_node == NULL)
+	{
+		return (NULL);
+	}
+
+	new_node->n = n;
+
 	if (idx == 0)
+
 	{
-		*h = new; new->prev = NULL;
-		new->next = (tmp == NULL) ? NULL : tmp;
-		return (new);
-	}
-	if (idx == 1)
-	{
-		prev = *h;
-		tmp = ((*h)->next == NULL) ? NULL : (*h)->next;
-		new->prev = prev; new->next = tmp; prev->next = new;
-		if (tmp)
-			tmp->prev = new;
-		return (new);
-	}
-	if (idx == c && tmp == NULL)
-	{
-		if (prev != NULL)
+
+	new_node->prev = NULL;
+	new_node->next = *h;
+
+	if (*h != NULL)
 		{
-			new->prev = prev; new->next = NULL;
-			prev->next = new; return (new);
+			(*h)->prev = new_node;
 		}
-		free(new); return (NULL);
+
+	*h = new_node;
+	return (new_node);
+
 	}
-	else if (idx != c && tmp == NULL)
+
+	dlistint_t *current = *h;
+	unsigned int i = 0;
+
+	while (current != NULL && i < idx - 1)
 	{
-		free(new); return (NULL);
+		current = current->next;
+		i++;
 	}
-	prev = tmp; tmp = tmp->next; new->prev = prev;
-	new->next = tmp; prev->next = new; tmp->prev = new;
-	return (new);
+
+	if (current == NULL)
+	{
+		free(new_node);
+		return (NULL);
+	}
+
+	new_node->prev = current;
+	new_node->next = current->next;
+
+	if (current->next != NULL)
+	{
+		current->next->prev = new_node;
+	}
+
+	current->next = new_node;
+
+return (new_node);
+
 }
+
