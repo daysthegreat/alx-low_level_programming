@@ -1,0 +1,32 @@
+# Makefile for building 'school' executable
+
+# Variables
+CC := gcc
+SRC := main.c school.c
+OBJ := $(SRC:.c=.o)
+NAME := school
+RM := rm -f
+
+# Default rule
+all: $(NAME)
+
+# Compilation and linking
+$(NAME): $(OBJ) m.h
+	$(CC) -o $(NAME) $(OBJ) -I.
+
+# Rule to clean temporary and executable files
+clean:
+	$(RM) *~ \#*\# $(NAME)
+
+# Rule to clean object files
+oclean:
+	$(RM) $(OBJ)
+
+# Rule to clean all temporary, executable, and object files
+fclean: clean oclean
+
+# Rule to force recompilation of all source files
+re: fclean all
+
+# Disable implicit rules
+.SUFFIXES:
