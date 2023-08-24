@@ -1,36 +1,27 @@
-# Makefile for building 'school' executable
+# Usage: make [all/clean/oclean/fclean] -f [file]
 
-# Variables
-CC := gcc
-SRC := main.c school.c
-OBJ := $(SRC:.c=.o)
-NAME := school
-RM := rm -f
-CFLAGS := -Wall -Werror -Wextra -pedantic
 
-# Default rule
-all: $(NAME)
+CC = gcc
+SRC = main.c school.c
+OBJ = $(SRC:.c=.o)
+NAME = school
+RM = rm -f
+CFLAGS = -Wall -Werror -Wextra -pedantic
 
-# Compilation and linking
-$(NAME): $(OBJ) m.h
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) -I.
+# makes executable
+all: m.h $(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
 
-# Rule to clean temporary and executable files
+# deletes tmp files & executable
 clean:
-	$(RM) *~ \#*\# $(NAME)
+	$(RM) *~ $(NAME)
 
-# Rule to clean object files
+# deletes object files
 oclean:
 	$(RM) $(OBJ)
 
-# Rule to clean all temporary, executable, and object files
+# deletes all (tmp files, executable, & obj files)
 fclean: clean oclean
 
-# Rule to force recompilation of all source files
-re: fclean all
-
-# Disable implicit rules
-.SUFFIXES:
-
-# Prevent make from removing intermediate object files
-.PRECIOUS: $(OBJ)
+# deletes all & recompiles all source files
+re: oclean all
